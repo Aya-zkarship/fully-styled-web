@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AYA Studio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- AOS for scroll animations -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <style>
+    body{
+      font-family: Arial, sans-serif;
+      margin:0;
+      background:#0f172a;
+      color:#f1f5f9;
+      transition: background 0.3s, color 0.3s;
+    }
+    header{
+      background:linear-gradient(90deg,#ff7a59,#ffb86b);
+      padding:20px;
+      text-align:center;
+      color:#0f172a;
+    }
+    header h1{margin:0;font-size:40px;letter-spacing:2px}
+    header p{margin:0;font-size:18px}
+
+    main{padding:20px;max-width:1000px;margin:auto}
+
+    .hero{text-align:center;padding:60px 20px}
+    .hero h2{font-size:36px;margin-bottom:10px}
+    .hero p{color:#94a3b8;font-size:18px}
+
+    .typing{
+      font-weight:bold;
+      color:#ffb86b;
+      font-size:22px;
+      margin-top:10px;
+    }
+
+    .features{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:20px;margin:40px 0
+    }
+    .feature{
+      background:#1e293b;
+      padding:20px;
+      border-radius:10px;
+      transition:transform 0.3s, background 0.3s;
+    }
+    .feature:hover{
+      transform:translateY(-5px) scale(1.03);
+      background:#334155;
+    }
+    .feature h3{margin-top:0;color:#ffb86b}
+
+    form{
+      display:grid;gap:12px;
+      background:#1e293b;
+      padding:20px;
+      border-radius:10px;
+    }
+    input,textarea{
+      padding:12px;
+      border-radius:6px;
+      border:none;
+      font-size:14px;
+      width:100%;
+    }
+    button{
+      background:#ff7a59;
+      color:#0f172a;
+      border:none;
+      padding:12px;
+      border-radius:6px;
+      font-weight:bold;
+      cursor:pointer;
+      transition: transform 0.2s;
+    }
+    button:hover{
+      transform:scale(1.05);
+    }
+
+    footer{
+      text-align:center;
+      padding:20px;
+      color:#94a3b8;
+      font-size:14px;
+      margin-top:30px
+    }
+  </style>
+</head>
+<body>
+  <header data-aos="fade-down">
+    <h1>AYA Studio</h1>
+    <p>Creative Landing Page ✨</p>
+  </header>
+
+  <main>
+    <section class="hero" data-aos="zoom-in">
+      <h2>Welcome to AYA Studio</h2>
+      <p>Creative solutions for modern, fast, and responsive websites.</p>
+      <div class="typing" id="typing"></div>
+    </section>
+
+    <section class="features">
+      <div class="feature" data-aos="fade-up" data-aos-delay="100">
+        <h3>⚡ Fast</h3>
+        <p>Lightweight design compatible with all devices.</p>
+      </div>
+      <div class="feature" data-aos="fade-up" data-aos-delay="200">
+        <h3>🎨 Stylish</h3>
+        <p>Modern colors and elegant design that reflect your brand.</p>
+      </div>
+      <div class="feature" data-aos="fade-up" data-aos-delay="300">
+        <h3>📩 Contact</h3>
+        <p>Send your messages directly to your email inbox.</p>
+      </div>
+    </section>
+
+    <section id="contact" data-aos="fade-up">
+      <h2>📬 Contact Us</h2>
+      <form id="contactForm">
+        <input type="text" name="from_name" placeholder="Your Name" required>
+        <input type="email" name="reply_to" placeholder="Your Email" required>
+        <textarea name="message" placeholder="Your Message..." required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 AYA Studio — All rights reserved
+  </footer>
+
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <!-- AOS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+  <script>
+    // Initialize EmailJS
+    (function(){
+      emailjs.init("0N22_OPGfXqCzL5yx");
+    })();
+
+    document.getElementById("contactForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      emailjs.sendForm("service_rtojpk9", "template_ba97nxt", this)
+        .then(() => {
+          alert("✔️ Your message has been sent successfully! Thank you for contacting AYA 🌸");
+          this.reset();
+        }, (err) => {
+          alert("❌ An error occurred while sending. Please try again.");
+          console.error(err);
+        });
+    });
+
+    // Typing effect
+    const textArray = ["Web Design", "Creative Solutions", "Responsive Websites"];
+    let index = 0, charIndex = 0;
+    const typingElement = document.getElementById("typing");
+
+    function type(){
+      if(charIndex < textArray[index].length){
+        typingElement.textContent += textArray[index].charAt(charIndex);
+        charIndex++;
+        setTimeout(type,100);
+      } else {
+        setTimeout(erase,1500);
+      }
+    }
+
+    function erase(){
+      if(charIndex > 0){
+        typingElement.textContent = textArray[index].substring(0, charIndex-1);
+        charIndex--;
+        setTimeout(erase,50);
+      } else {
+        index = (index+1)%textArray.length;
+        setTimeout(type,500);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      AOS.init({duration:1000});
+      type();
+    });
+  </script>
+</body>
+</html>
